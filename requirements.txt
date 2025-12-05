@@ -1,0 +1,10 @@
+streamlit
+google-generativeai
+pandas
+plotly
+openpyxl
+python-dotenv
+duckduckgo-search
+trafilatura
+beautifulsoup4
+yfinance
