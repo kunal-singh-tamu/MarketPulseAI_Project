@@ -148,8 +148,8 @@ def analyze_news(selected_news: List[Dict[str, str]]) -> Dict[str, Any]:
         # But for now, let's stick to the plan: if configure_genai fails, it means no key.
         raise ValueError("Google API Key not found. Please check your .env file.")
 
-    # Use gemini-1.5-flash as requested
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # Use gemini-2.5-flash as requested
+    model = genai.GenerativeModel('gemini-2.5-flash')
     
     # Scrape full text for selected articles
     articles_content = []
