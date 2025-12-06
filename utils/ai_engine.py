@@ -1,6 +1,8 @@
 import os
 import json
 import datetime
+import time
+import random
 import google.generativeai as genai
 import streamlit as st
 from typing import List, Dict, Any
@@ -250,3 +252,79 @@ def analyze_news(selected_news: List[Dict[str, str]]) -> Dict[str, Any]:
                     rec["price"] = f"{rec.get('price')} (Approx)"
 
     return analysis_data
+
+def chat_with_analyst(user_query: str, context_data: Dict[str, Any], chat_history: List[Dict[str, str]]) -> str:
+    """
+    Generates a response to a user's question based on the analysis context and chat history.
+    Includes retry logic and enhanced prompt engineering.
+    """
+    print(f"Chat Request: {user_query}")
+    
+    if not configure_genai():
+        return "⚠️ Error: API Key not found. Please check your configuration."
+
+    # Retry configuration
+    max_retries = 3
+    base_delay = 1
+
+    for attempt in range(max_retries):
+        try:
+            model = genai.GenerativeModel('gemini-2.5-flash')
+            
+            # Construct Context String
+            summary_text = "\n".join(context_data.get("summary", [])) if isinstance(context_data.get("summary"), list) else context_data.get("summary", "")
+            
+            recs_text = ""
+            for rec in context_data.get("recommendations", []):
+                recs_text += f"- {rec.get('ticker')}: {rec.get('action')} at {rec.get('price')}. Reasoning: {rec.get('reasoning')}\n"
+                
+            # Enhanced System Prompt
+            system_prompt = f"""
+            You are a Senior Financial Analyst assisting a user with market research.
+            
+            ### INSTRUCTIONS
+            1. Use the provided 'MARKET ANALYSIS CONTEXT' (Executive Summary and Recommendations) as your primary ground truth.
+            2. If the user asks for definitions, broader market concepts, or general financial advice, use your internal knowledge to expand on the answer.
+            3. If the user asks about a stock NOT in the context, clearly state that it was not part of the current analysis, but provide general known info about it.
+            4. Be professional, concise, and data-driven.
+            
+            ### MARKET ANALYSIS CONTEXT
+            **Executive Summary:**
+            {summary_text}
+            
+            **Stock Recommendations:**
+            {recs_text}
+            """
+            
+            # Construct Chat History
+            history_prompt = "### CONVERSATION HISTORY\n"
+            for msg in chat_history[-5:]: # Keep last 5 messages
+                role = "User" if msg["role"] == "user" else "Analyst"
+                history_prompt += f"{role}: {msg['content']}\n"
+                
+            final_prompt = f"""
+            {system_prompt}
+            
+            {history_prompt}
+            
+            ### USER QUERY
+            User: {user_query}
+            Analyst:
+            """
+            
+            response = model.generate_content(final_prompt)
+            answer = response.text.strip()
+            
+            print(f"Chat Response Length: {len(answer)}")
+            return answer
+
+        except Exception as e:
+            print(f"Chat Error (Attempt {attempt + 1}/{max_retries}): {e}")
+            if attempt < max_retries - 1:
+                sleep_time = base_delay * (2 ** attempt) + random.uniform(0, 1)
+                print(f"Retrying in {sleep_time:.2f} seconds...")
+                time.sleep(sleep_time)
+            else:
+                return "⚠️ I encountered an error while processing your request. Please try again later."
+    
+    return "⚠️ Service unavailable after multiple attempts."

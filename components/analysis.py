@@ -104,4 +104,40 @@ def render_analysis():
     if st.button("Start New Analysis"):
         st.session_state.step = 1
         st.session_state.current_topic = None
+        st.session_state.chat_history = [] # Reset chat history
         st.rerun()
+
+    # --- Contextual Chat Assistant ---
+    st.markdown("---")
+    st.subheader("💬 Ask the Analyst")
+    st.caption("Ask follow-up questions about the analysis above.")
+
+    # Initialize chat history
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = []
+
+    # Display chat messages from history on app rerun
+    for message in st.session_state.chat_history:
+        with st.chat_message(message["role"]):
+            st.markdown(message["content"])
+
+    # Accept user input
+    if prompt := st.chat_input("What would you like to know?"):
+        # Add user message to chat history
+        st.session_state.chat_history.append({"role": "user", "content": prompt})
+        # Display user message in chat message container
+        with st.chat_message("user"):
+            st.markdown(prompt)
+
+        # Display assistant response in chat message container
+        with st.chat_message("assistant"):
+            with st.spinner("Thinking..."):
+                response = ai_engine.chat_with_analyst(
+                    user_query=prompt,
+                    context_data=result,
+                    chat_history=st.session_state.chat_history
+                )
+                st.markdown(response)
+        
+        # Add assistant response to chat history
+        st.session_state.chat_history.append({"role": "assistant", "content": response})
