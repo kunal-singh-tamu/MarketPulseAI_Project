@@ -3,14 +3,35 @@ import streamlit as st
 from supabase import create_client, Client
 import datetime
 
+from dotenv import load_dotenv
+
+# Load env vars if not already loaded
+load_dotenv()
+
 # Initialize Supabase Client
 @st.cache_resource
 def init_connection():
+    # Try getting from environment (local .env)
     url = os.environ.get("SUPABASE_URL")
     key = os.environ.get("SUPABASE_KEY")
+    
+    # Fallback to Streamlit Secrets (Cloud)
+    if not url and hasattr(st, "secrets"):
+        try:
+            url = st.secrets["SUPABASE_URL"]
+            key = st.secrets["SUPABASE_KEY"]
+        except KeyError:
+            pass
+            
     if not url or not key:
+        print("❌ Supabase keys not found in environment or secrets.")
         return None
-    return create_client(url, key)
+        
+    try:
+        return create_client(url, key)
+    except Exception as e:
+        print(f"❌ Failed to create Supabase client: {e}")
+        return None
 
 def get_client():
     return init_connection()
