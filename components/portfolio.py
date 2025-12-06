@@ -13,32 +13,27 @@ def render_portfolio():
     df = data_handler.get_portfolio_dataframe()
     
     if df.empty:
-        st.info("Your portfolio is empty. Go to the Dashboard to analyze stocks and add them here.")
+        st.info("Portfolio is empty or database connection missing. Please check your configuration.")
         return
 
-    # Split into Long and Short
-    # Long: BUY, WATCH
-    # Short: SELL, AVOID
+    # Group by Sector
+    sectors = df['Sector'].unique()
     
-    long_mask = df['Recommendation'].str.upper().isin(['BUY', 'WATCH'])
-    short_mask = df['Recommendation'].str.upper().isin(['SELL', 'AVOID'])
-    
-    long_df = df[long_mask]
-    short_df = df[short_mask]
-    
-    st.subheader("📈 Long Positions (Buy/Watch)")
-    if not long_df.empty:
-        st.dataframe(long_df, use_container_width=True, hide_index=True)
-    else:
-        st.caption("No long positions added.")
+    for sector in sectors:
+        st.markdown(f"### 🏭 {sector}")
+        sector_df = df[df['Sector'] == sector]
         
-    st.subheader("📉 Short/Risk Positions (Sell/Avoid)")
-    if not short_df.empty:
-        st.dataframe(short_df, use_container_width=True, hide_index=True)
-    else:
-        st.caption("No short positions added.")
-        
-    st.markdown("---")
+        # Display as a styled dataframe or custom cards
+        # Using dataframe for density
+        st.dataframe(
+            sector_df[[
+                "Ticker", "Name", "Recommendation", "Price", 
+                "Date Added", "Short Term Plan", "Long Term Plan"
+            ]],
+            use_container_width=True,
+            hide_index=True
+        )
+        st.markdown("---")
     
     # Export
     csv = data_handler.convert_df_to_csv(df)

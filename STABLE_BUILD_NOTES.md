@@ -28,3 +28,13 @@ If future updates break the application, you can revert to this state using:
 git checkout 34657567806eeee8a07bd5903e72d13643b4385a
 ```
 Or simply refer to this commit in the GitHub repository history.
+
+## Build: Pre-DB Integration
+- **Date**: 2025-12-06
+- **Commit**: 08d09d7 - Added project progress and UI updates.
+- **Status**: Stable
+- **Notes**: 
+    - Functional UI with Dashboard, News Feed, and Analysis.
+    - Portfolio uses Session State (non-persistent).
+    - Ready for Supabase database integration.
+
