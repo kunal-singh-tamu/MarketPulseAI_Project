@@ -41,3 +41,5 @@ Thumbs.db
 
 # Streamlit
 .streamlit/secrets.toml
+
+PROJECT_JOURNEY.md

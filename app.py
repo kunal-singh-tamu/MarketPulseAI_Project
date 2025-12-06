@@ -15,36 +15,83 @@ st.set_page_config(
 )
 
 # Custom CSS for Financial Terminal Look
+# Custom CSS for Dark Theme with Light Accents
 st.markdown("""
 <style>
-    /* Dark Theme adjustments */
+    /* Main App Background - Dark Grey */
     .stApp {
-        background-color: #0e1117;
-        color: #fafafa;
+        background-color: #262730;
+        color: #FAFAFA;
     }
     
-    /* Monospace for data */
-    .stDataFrame, .stTable {
-        font-family: 'Courier New', monospace;
-    }
-    
-    /* Button styling */
-    .stButton button {
-        border-radius: 0px;
-        font-weight: bold;
-        border: 1px solid #444;
-    }
-    
-    /* Sidebar styling */
+    /* Sidebar - Darker Grey */
     section[data-testid="stSidebar"] {
-        background-color: #161b22;
+        background-color: #1E1E1E;
+        color: #FAFAFA;
     }
     
-    /* Card styling */
-    div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlock"] {
-        background-color: #161b22;
-        border-radius: 5px;
-        padding: 10px;
+    /* Sidebar Text Color Override */
+    section[data-testid="stSidebar"] .stMarkdown, 
+    section[data-testid="stSidebar"] h1, 
+    section[data-testid="stSidebar"] h2, 
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] p {
+        color: #FAFAFA !important;
+    }
+    
+    /* Card/Container Styling - Light Grey for Article Selection (Specific Request) */
+    /* This targets st.container(border=True) */
+    div[data-testid="stVerticalBlockBorderWrapper"] {
+        background-color: #E3E8EF;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid #d1d5db;
+    }
+    
+    /* Ensure text inside these light cards is dark */
+    div[data-testid="stVerticalBlockBorderWrapper"] p,
+    div[data-testid="stVerticalBlockBorderWrapper"] h1,
+    div[data-testid="stVerticalBlockBorderWrapper"] h2,
+    div[data-testid="stVerticalBlockBorderWrapper"] h3,
+    div[data-testid="stVerticalBlockBorderWrapper"] div,
+    div[data-testid="stVerticalBlockBorderWrapper"] span {
+        color: #1c1e21 !important;
+    }
+    
+    /* Buttons - Bright Blue */
+    .stButton button {
+        background-color: #1A73E8;
+        color: white;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        box_shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+    }
+    
+    .stButton button:hover {
+        background-color: #1557b0;
+        box_shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transform: translateY(-1px);
+    }
+    
+    /* Dataframes - Dark Mode Friendly */
+    .stDataFrame {
+        border: 1px solid #444;
+        border-radius: 8px;
+        background-color: #1E1E1E;
+    }
+    
+    /* Headers - Lighter Blue for Dark Background */
+    h1, h2, h3 {
+        font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: #64B5F6; /* Lighter Blue */
+        font-weight: 700;
+    }
+    
+    /* Metrics */
+    div[data-testid="stMetricValue"] {
+        color: #64B5F6;
     }
 </style>
 """, unsafe_allow_html=True)

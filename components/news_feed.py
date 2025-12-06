@@ -15,6 +15,11 @@ def render_news_feed():
             st.rerun()
         return
 
+    # Back Button at the top
+    if st.button("⬅️ Back to Dashboard", key="back_to_dash_top"):
+        st.session_state.step = 1
+        st.rerun()
+
     st.markdown(f"## 📰 Latest News for: **{topic}**")
     
     # Fetch news if not already in session state or if topic changed
@@ -78,18 +83,26 @@ def render_news_feed():
         selected_indices = []
         
         for i, item in enumerate(news_items):
-            # Default to checked
-            is_checked = st.checkbox(
-                f"**{item['headline']}** - *{item['source']}* ({item['date']})",
-                value=True,
-                key=f"news_{i}",
-                help=item['snippet']
-            )
-            st.caption(f"{item['snippet']}")
-            st.markdown("---")
-            
-            if is_checked:
-                selected_indices.append(i)
+            # Card Style for each article
+            with st.container(border=True):
+                col_check, col_content = st.columns([0.1, 0.9])
+                
+                with col_content:
+                    st.markdown(f"### {item['headline']}")
+                    st.markdown(f"**Source:** {item['source']} | **Date:** {item['date']}")
+                    st.caption(f"{item['snippet']}")
+                    
+                with col_check:
+                    # Checkbox for selection
+                    is_checked = st.checkbox(
+                        "Select",
+                        value=True,
+                        key=f"news_{i}",
+                        label_visibility="collapsed"
+                    )
+                
+                if is_checked:
+                    selected_indices.append(i)
         
         submitted = st.form_submit_button("⚡ Process Analysis", type="primary")
         

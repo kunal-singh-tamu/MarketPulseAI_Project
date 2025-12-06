@@ -38,14 +38,14 @@ def render_analysis():
     # Sentiment Banner
     sentiment = result.get("sentiment", "Neutral")
     color_map = {
-        "Positive": "green",
-        "Negative": "red",
-        "Neutral": "gray"
+        "Positive": "#4CAF50", # Material Green
+        "Negative": "#F44336", # Material Red
+        "Neutral": "#9E9E9E"   # Material Grey
     }
-    color = color_map.get(sentiment, "gray")
+    color = color_map.get(sentiment, "#9E9E9E")
     
     st.markdown(f"""
-    <div style="background-color: rgba({0 if color=='red' else 0}, {128 if color=='green' else 0}, 0, 0.2); 
+    <div style="background-color: {color}33; 
                 padding: 15px; border-radius: 10px; border-left: 5px solid {color}; margin-bottom: 20px;">
         <h3 style="margin:0; color: {color};">Market Sentiment: {sentiment.upper()}</h3>
     </div>
@@ -82,7 +82,7 @@ def render_analysis():
                 st.caption(stock.get('company_name'))
                 
                 action = stock.get('action', 'WATCH').upper()
-                action_color = "green" if action in ["BUY", "WATCH"] else "red"
+                action_color = "#4CAF50" if action in ["BUY", "WATCH"] else "#F44336"
                 
                 st.markdown(f"**Action:** <span style='color:{action_color}'>{action}</span>", unsafe_allow_html=True)
                 st.markdown(f"**Est. Price:** ${stock.get('price')}")
