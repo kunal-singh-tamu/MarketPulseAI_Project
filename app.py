@@ -112,7 +112,7 @@ def main():
     view = st.sidebar.radio("Navigation", ["Dashboard", "Portfolio"])
     
     st.sidebar.markdown("---")
-    st.sidebar.info("Powered by Gemini 1.5 Flash")
+    st.sidebar.info("Powered by Gemini 2.5 Flash")
     
     if view == "Dashboard":
         if st.session_state.step == 1:

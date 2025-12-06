@@ -5,14 +5,14 @@ def render_dashboard():
     Renders the main dashboard with Trending Topics and Search.
     Updates st.session_state.current_topic and st.session_state.step upon selection.
     """
-    st.markdown("<h1 style='text-align: center;'>🚀 Market Pulse Dashboard</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'> Market Pulse Dashboard</h1>", unsafe_allow_html=True)
     
     st.markdown("""
     <div style='text-align: center; color: #E0E0E0;'>
     <b>Welcome to MarketPulseAI.</b><br>
     This tool aggregates real-time financial news, analyzes market sentiment using <b>Gemini AI</b>, and provides actionable stock recommendations.
     <br><br>
-    👇 <b>Get Started</b>: Select a trending sector below or search for a specific company/topic to begin your analysis.
+     <b>Get Started</b>: Select a trending sector below or search for a specific company/topic to begin your analysis.
     </div>
     """, unsafe_allow_html=True)
     
