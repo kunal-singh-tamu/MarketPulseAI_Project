@@ -44,14 +44,29 @@ def render_news_feed():
         return
 
     # Data Freshness Table
-    st.subheader("Data Freshness")
+    st.markdown("### 📊 Data Freshness")
     try:
-        df_freshness = pd.DataFrame(news_items)
-        if not df_freshness.empty and 'source' in df_freshness.columns and 'date' in df_freshness.columns:
+        freshness_data = []
+        for item in news_items:
+            freshness_data.append({
+                "Source": item.get('source'),
+                "Date": item.get('date'),
+                "Headline": item.get('headline'),
+                "Link": item.get('url') # Add URL for the link column
+            })
+        
+        df = pd.DataFrame(freshness_data)
+        if not df.empty:
             st.dataframe(
-                df_freshness[['source', 'date', 'headline']], 
-                hide_index=True, 
-                use_container_width=True
+                df, 
+                hide_index=True,
+                use_container_width=True,
+                column_config={
+                    "Link": st.column_config.LinkColumn(
+                        "Article Link",
+                        display_text="Read Article"
+                    )
+                }
             )
     except Exception as e:
         st.error(f"Error displaying freshness table: {e}")
