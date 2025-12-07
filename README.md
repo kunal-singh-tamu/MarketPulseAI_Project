@@ -29,7 +29,7 @@ MarketPulseAI is a financial intelligence tool designed to aggregate real-time m
 ## Technology Stack
 
 *   **Frontend**: Streamlit (Python-based web framework)
-*   **LLM Integration**: Google Gemini 1.5 Flash (via `google-generativeai`)
+*   **LLM Integration**: Google Gemini 2.5 Flash (via `google-generativeai`)
 *   **Database**: Supabase (PostgreSQL) for persistent portfolio storage
 *   **Market Data**: `yfinance` for real-time stock pricing
 *   **Search & Scraping**: `duckduckgo-search` for finding articles and `trafilatura` for extracting content
