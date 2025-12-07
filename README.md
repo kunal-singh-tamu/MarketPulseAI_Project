@@ -1,6 +1,6 @@
 # MarketPulseAI
 
-**Live Demo:** [Insert Streamlit App Link Here]
+**Live Demo:** https://market-pulse-ai.streamlit.app/
 
 MarketPulseAI is a financial intelligence tool designed to aggregate real-time market news, perform sentiment analysis using advanced Large Language Models (LLMs), and provide actionable stock recommendations. It serves as a personal research assistant for investors, helping them cut through the noise of daily financial news.
 
@@ -11,7 +11,7 @@ MarketPulseAI is a financial intelligence tool designed to aggregate real-time m
 *   **Utility**: Ensures users are analyzing the most current market data, filtering out outdated information (older than 3 days) to maintain relevance.
 
 ### 2. AI-Powered Sentiment Analysis
-*   **Functionality**: Uses Google's Gemini 1.5 Flash model to read and analyze the content of fetched news articles.
+*   **Functionality**: Uses Google's Gemini 2.5 Flash model to read and analyze the content of fetched news articles.
 *   **Utility**: Converts raw text into structured insights, providing a sentiment score (Bullish/Bearish/Neutral), a concise summary, and specific investment opportunities.
 
 ### 3. Strategic Recommendations
