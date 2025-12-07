@@ -3,6 +3,8 @@
 **Live Demo:** https://market-pulse-ai.streamlit.app/
 
 MarketPulseAI is a financial intelligence tool designed to aggregate real-time market news, perform sentiment analysis using advanced Large Language Models (LLMs), and provide actionable stock recommendations. It serves as a personal research assistant for investors, helping them cut through the noise of daily financial news.
+<img width="1611" height="828" alt="Screenshot 2025-12-06 at 9 41 12 PM" src="https://github.com/user-attachments/assets/346a50bf-dc65-4350-b96f-20142281a419" />
+
 
 ## Features & Functionality
 
